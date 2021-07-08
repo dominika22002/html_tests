@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> mapy </title>
+    <link rel="stylesheet" href="style.css" type="text/css" />
+
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css">
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <style type="text/css">
+        #mapid {
+            height: 300px;
+
+        }
+    </style>
+</head>
+
+<body>
+
+    <div id="mapid">
+
+    </div>
+    <script>
+
+        var przycisk = new Vue({
+            el: '#przycisk',
+            data: {
+                api_url: 'http://vps694183.ovh.net:5000/drone/2',
+                watch: false
+            },
+            created: function () {
+                this.mapid = L.map('mapid').setView([51.09851697089541, 17.027999720415856], 13);
+
+                this.myIcon = L.icon({
+                    iconUrl: 'Drone-07-512.jpg',
+                    iconSize: [30, 32],
+                    iconAnchor: [15, 16]
+
+                })
+
+
+                this.marker = L.marker([0, 0], { icon: this.myIcon }).addTo(this.mapid);
+                L.tileLayer('https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=cWe1Eu1RgsKO4y6IexYa',
+                    {
+                        attribution: ' <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+                        maxZoom: 18,
+                        id: 'mapbox/streets-v11',
+                        tileSize: 512,
+                        zoomOffset: -1,
+                        accessToken: 'your.mapbox.access.token'
+
+                    }).addTo(this.mapid);
+
+                let self = this;
+
+                setInterval(function () {
+                    self.getDrone()
+                }, 1000);
+            },
+            methods: {
+                toggleDroneWatching: function () {
+                    this.watch = !this.watch;
+                },
+
+                getDrone: function () {
+                    if (!this.watch)
+                        return;
+
+                    let self = this;
+
+                    axios.get(this.api_url)
+                        .then(function (response) {
+                            console.log(response);
+                            // data = response.json();
+
+
+                            const [wartosc1, wartosc2] = response.data.position;
+
+                            //var marker = L.marker([wartosc1, wartosc2]).addTo(mapid);
+                            self.marker.setLatLng([wartosc1, wartosc2]);
+
+                            // document.getElementById('war1').textContent = wartosc1;
+                            // document.getElementById('war2').textContent = wartosc2;
+
+                        })
+                }
+
+            }
+        })
+
+        var marker2 = L.marker([51.5, -0.09]).addTo(mapid);
+
+        var Line = L.polyline([
+
+            [51.509, -0.08],
+            [51.503, -0.06]
+        ]).addTo(mapid);
+
+
+    </script>
+
+</body>
+
+</html>

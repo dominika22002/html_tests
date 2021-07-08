@@ -1,0 +1,71 @@
+.TopMenu {
+    width: 100.2%;
+}
+
+.LeftSideOfTopMenu {
+    background-color: teal;
+    position: static;
+    margin-left: 10px;
+    margin-top: 10px;
+}
+
+.RightSideOfTopMenu {
+    background-color: rgb(79, 160, 160);
+    position: static;
+    padding: 0px;
+    margin-top: 10px;
+}
+
+.MainPage {
+    width: 100.9%;
+}
+
+.LeftMenu {
+    text-align: center;
+    background-color: thistle;
+    height: 100%;
+    position: static;
+}
+
+.LeftMenuTopBar {
+    background-color: tomato;
+}
+
+.LeftMenuTopBarElement {
+    background-color: turquoise;
+    border: 1px solid yellow;
+}
+
+.LeftMenuTopBarElement:hover {
+    background-color: rgb(26, 102, 94);
+}
+
+.MainMap {
+    text-align: center;
+    background-color: rgb(255, 157, 255);
+}
+
+.MainMapTopBarElement {
+    background-color: #0f61ea;
+    /* border-left: 1px solid #9dc6f5; */
+    border-bottom: 1px solid #9dc6f5;
+    color: #ecf1f7;
+    font-family: Helvetica;
+    /* font-weight: bold; */
+}
+
+.MainMapTopBarElement:hover {
+    background-color: #4381eb;
+}
+
+.MainMapMapElement {
+    height: 100%;
+    width: 67.2%;
+    position: fixed;
+    padding: 0px;
+}
+
+#mapid {
+    height: 82.8%;
+    width: 67.2%;
+}

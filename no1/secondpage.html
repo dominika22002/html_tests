@@ -1,0 +1,298 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="Text/html; charset=UTF-8 " />
+    <meta http-equiv="content-language" content="pl" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title> MOJA DRUGA STRONA </title>
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #432616;
+            font-size: small;
+        }
+        
+        div.text {
+            /* background-color: rgb(189, 197, 194); */
+            color: rgb(105, 70, 70);
+            /* text-align: right; */
+        }
+        
+        div.kolumna {
+            margin-left: 1.5em;
+            margin-right: 1.5em;
+            margin-top: 1.5em;
+        }
+        
+        #mapid {
+            height: 700px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div class="kolumna">
+        <div class="tile is-ancestor" style="text-align: center; ">
+            <div class="column">
+            </div>
+            <div class="tile is-narrow  is-parent">
+                <div class="tile is-child box">
+                    aaaaaaaa
+                </div>
+            </div>
+            <div class="tile is-narrow  is-parent">
+                <div class="tile is-child box">
+                    aaaaaaaaaaaaaaaaaaaa
+                </div>
+            </div>
+            <div class="tile is-narrow is-parent">
+                <div class="tile is-child box">
+                    aaaaaaaaaaaaaaaaaaaaaaaaaa
+                </div>
+            </div>
+            <div class="tile is-narrow is-parent">
+                <div class="tile is-child box">
+                    aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa
+                </div>
+            </div>
+            <div class="column" style="float: right;">
+            </div>
+            <div class="tile is-1 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <a href="https://www.twitter.com">
+                        <img src="https://img.icons8.com/ios-glyphs/240/000000/twitter.png" style="height: 2.5em;" />
+                    </a>
+                </div>
+            </div>
+            <div class="tile is-1 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <a href="https://www.instagram.com">
+                        <img src="https://img.icons8.com/windows/240/000000/instagram.png" style="height: 2.5em;" />
+                    </a>
+                </div>
+            </div>
+            <div class="tile is-1 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <a href="https://www.facebook.com">
+                        <img src="https://img.icons8.com/material-outlined/240/000000/facebook-new.png" style="height: 2.5em;" />
+                    </a>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <p class="title">One</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin ornare magna eros, eu pellentesque tortor vestibulum ut. Maecenas non massa sem. Etiam finibus odio quis feugiat facilisis.</p>
+                </div>
+                <div class="tile is-child box">
+                    <p class="title">Two</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.eugiat facilisis.</p>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <p class="title">Three</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam semper diam at erat pulvinar, at pulvinar felis blandit. Vestibulum volutpat tellus diam, consequat gravida libero rhoncus ut. Morbi maximus, leo sit amet vehicula eleifend,
+                        nunc dui porta orci, quis semper odio felis ut quam.
+                    </p>
+                    <p>Suspendisse varius ligula in molestie lacinia. Maecenas varius eget ligula a sagittis. Pellentesque interdum, nisl nec interdum maximus, augue diam porttitor lorem, et sollicitudin felis neque sit amet erat. Marius ligula, at volutpat
+                        tortor.
+                    </p>
+                    <p>Integer sollicitudin, tortor a mattis commodo, velit urna rhoncus erat, vitae congue lectus dolor consequat libero. Donec leo ligula, maximus et pellentesque sed, gra leo.
+                    </p>
+                </div>
+            </div>
+        </div>
+        <div class="tile is-ancestor">
+            <div class="tile is-4 is-vertical is-parent">
+                <div class="tile is-child box">
+                    <!-- <form method="POST" enctype="text/plain" accept="utf-8"> -->
+                    <div id="strasznerzeczy">
+                        <input class="textarea" placeholder="e.g. Hello world" name="meeemory" id="meemory" /><br />
+                        <input type="text" id="meemory" v-on:click="button_action"> </p>
+                        <button class="button is-small" v-on:click="button_action"> Wyślij Wspomnienie
+                        </button>
+                    </div>
+                    <!-- </form> -->
+                </div>
+                <div class="tile is-child box">
+                    <p class="title">Two</p>
+                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.eugiat facilisis.</p>
+                </div>
+            </div>
+            <div class="tile is-parent">
+                <div class="tile is-child box">
+                    <div id="mapid"></div>
+                    <div id='przycisk'>
+                        <button class="button is-small" v-on:click="toggleDroneWatching">{{first_button}}</button>
+                        <button class="button is-small" v-on:click="trasa_method">{{second_button}}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // webSocket = new WebSocket(url, protocols);
+        var websocket = new Vue({
+            methods: {
+                websocketexample: function() {
+                    var exampleSocket = new WebSocket("wss://www.example.com/socketserver", ["protocolOne", "protocolTwo"]);
+                }
+            }
+        })
+
+
+
+        var button_click_app = new Vue({
+            el: 'maps',
+            data: {
+                message: "aaa",
+                memory: '',
+            },
+            methods: {
+                button_action: function() {
+                    var x = document.getElementById("meemory");
+                    console.log(x);
+                    x.value = x.value.toUpperCase();
+                }
+            }
+        })
+
+
+
+        var przycisk = new Vue({
+            el: '#przycisk',
+            data: {
+                api_url: 'http://vps694183.ovh.net:5000/drone/2', // skąd ma zczytywać dane do latającego drona
+                watch: false, // jeśli false to ma się nie ruszać
+                first_button: 'odświez',
+                second_button: 'stworz trase',
+                map_creation_active: false
+            },
+            created: function() {
+                this.mapid = L.map('mapid').setView([51.09851697089541, 17.027999720415856], 2); // pozycja startowa
+
+                this.myIcon = L.icon({ // jak wygląda ikonka
+                    iconUrl: 'Drone-07-512.jpg',
+                    iconSize: [30, 32],
+                    iconAnchor: [15, 16]
+
+                })
+
+
+                this.marker = L.marker([0, 0], {
+                    icon: this.myIcon
+                }).addTo(this.mapid); // nowy obiekt na mapie
+                L.tileLayer('https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=cWe1Eu1RgsKO4y6IexYa', {
+                    attribution: ' <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    accessToken: 'your.mapbox.access.token'
+
+                }).addTo(this.mapid); // to jest ten napis na dole mapy
+
+                let self = this;
+
+                setInterval(function() { //jakby... rob getDrone() co 1000ms=1s 
+                    self.getDrone()
+                }, 100);
+
+                this.mapid.on("click", function(e) {
+                    self.onMapClick(e)
+                })
+            },
+
+            methods: {
+
+                toggleDroneWatching: function() { //ruszaj się lub nie ruszaj
+                    this.watch = !this.watch;
+                    if (!this.watch) {
+                        this.first_button = 'start';
+                    }
+                    if (this.watch) {
+                        this.first_button = 'stop';
+                    }
+
+                },
+
+                getDrone: function() {
+                    if (!this.watch) {
+                        return; // jeśli jest wyłączony to nieaktualizuj
+                    }
+                    let self = this;
+
+                    axios.get(this.api_url)
+                        .then(function(response) {
+                            console.log(response);
+                            const [wartosc1, wartosc2] = response.data.position;
+                            self.marker.setLatLng([wartosc1, wartosc2]); //zmienia pozycje naszego znacznika(obiektu) na określoną
+
+                            // self.mapid.flyTo([wartosc1, wartosc2], 18);//
+                        })
+                },
+                marker_bar: function() {
+                    return "iii";
+
+
+                },
+                onMapClick: function(e) {
+                    if (!this.map_creation_active) {
+                        return;
+                    }
+                    znacznik = this.marker;
+                    alert(e.latlng);
+                    // console.log(this.marker.latlng)
+                    znacznik = L.marker(e.latlng).addTo(this.mapid);
+                    znacznik.bindPopup(this.marker_bar).openPopup();
+
+
+                },
+                trasa_method: function() {
+                    console.log("uuuu");
+
+                    this.map_creation_active = !this.map_creation_active;
+
+                    // this.mapid.flyTo([51, 3], 13);
+                    // this.mapid.flyTo(this.mapid.mouseEventToLatLng(this.mapid.click);
+
+                    // this.mapid.setLatLng(this.mapid.mouseEventToLatLng());
+                    // var marker2 = L.marker([51.5, -0.09]).addTo(this.mapid);
+
+                },
+
+
+            }
+
+        })
+
+
+
+        // var Line = L.polyline([
+
+        //     [51.509, -0.08],
+        //     [51.503, -0.06]
+        // ]).addTo(mapid);
+
+        // react, vue, angular
+    </script>
+</body>
+
+</html>

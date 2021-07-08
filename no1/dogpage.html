@@ -1,0 +1,102 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="Text/html; charset=UTF-8 " />
+    <meta http-equiv="content-language" content="pl" />
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> Start </title>
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #432616;
+        }
+    </style>
+</head>
+
+<body>
+    <section id='doglist'>
+        {{message}}
+        <button v-on:click="doglist">Pokaz pieski</button>
+        <ol>
+            <li v-for="dog in dogs">
+                {{dog}}
+            </li>
+        </ol>
+    </section>
+
+    <section id='dogphoto'>
+        {{message}}
+        <p><button v-on:click="dogph">Pokaz pieska</button></p>
+        <img :src='srce' />
+        <p><button v-on:click="list_of_photos">Pokaz pieski</button></p>
+
+    </section>
+
+
+    <script>
+        var doglist = new Vue({
+            el: '#doglist',
+            data: {
+                message: "lista pieskow",
+                dogs: []
+            },
+
+            methods: {
+                doglist: function () {
+                    let self = this;
+
+                    axios.get('https://dog.ceo/api/breeds/list/all')
+                        .then(function (response) {
+                            for (breed in response.data.message) {
+                                console.log(breed);
+                                self.dogs.push(breed);
+                            }
+
+                        })
+                }
+            }
+        })
+
+        var dogphoto = new Vue({
+            el: '#dogphoto',
+            data: {
+                message: "zdjecie pieska",
+                srce: ''
+            },
+
+            methods: {
+                dogph: function () {
+                    let self = this;
+                    axios.get('https://dog.ceo/api/breeds/image/random')
+                        .then(function (response) {
+                            photo = response.data.message;
+                            console.log(photo);
+                            self.srce = photo;
+
+                        })
+
+                },
+                list_of_photos: function () {
+                    let self = this;
+                    axios.get('https://dog.ceo/api/breeds/image/random')
+                        .then(function (response) {
+                            photo = response.data.message;
+                            var img = document.createElement('img');
+                            img.src = photo;
+                            document.getElementById('dogphoto').appendChild(img);
+                        })
+
+
+                }
+            }
+        })
+    </script>
+</body>
+
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="Text/html; charset=UTF-8 " />
+    <meta http-equiv="content-language" content="pl" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title> WEBSOCKET </title>
+</head>
+
+<body>
+    <h2>WebSocket Test</h2>
+    <div id="output">
+        <input v-model="sending" placeholder="edit me">
+        <p>Message is: {{ sending }}</p>
+        <button v-on:click="buttonclick">wyslij do websocket</button>
+        <!-- <input v-model="sending" placeholder="edit me"> -->
+        <ol>
+            <li v-for="message in messages">
+                <p :style=message.style>{{message.message}}</p>
+                <!-- {{message}} -->
+
+            </li>
+        </ol>
+        <ol>
+            <li v-for="text in texts">
+                {{text}}
+            </li>
+        </ol>
+    </div>
+</body>
+<script>
+    class LogMessage {
+        constructor(style, message) {
+            this.style = style;
+            this.message = message;
+        }
+    }
+
+    var websocket = new Vue({
+        el: '#output',
+        data: {
+            wsUri: "wss://echo.websocket.org/",
+            mes: 'auuu',
+            messages: [],
+            sending: '',
+            texts: [],
+        },
+        created: function () {
+            this.init();
+
+        },
+        methods: {
+            buttonclick: function () {
+                this.texts.push(this.sending);
+            },
+
+            init: function () {
+                this.websocket = new WebSocket(this.wsUri);
+                this.testWebSocket();
+            },
+
+            testWebSocket: function () {
+                this.websocket.onopen = this.onOpen;
+                this.websocket.onclose = this.onClose;
+                this.websocket.onmessage = this.onMessage;
+                this.websocket.onerror = this.onError;
+            },
+
+            onOpen: function (evt) {
+                this.writeToScreen(new LogMessage('color: color', "CONNECTED"));
+                this.doSend("aUUUU");
+            },
+
+            onClose: function (evt) {
+                this.writeToScreen(new LogMessage('color: black', "DISCONNECTED"));
+            },
+
+            onMessage: function (evt) {
+                this.writeToScreen(new LogMessage('color: blue', 'RESPONSE:' + evt.data));
+                this.websocket.close();
+            },
+
+            onError: function (evt) {
+                this.writeToScreen(new LogMessage('color: red;', 'ERROR:' + evt.data));
+            },
+
+            doSend: function (message) {
+                this.writeToScreen(new LogMessage('color: black', "SENT: " + message));
+                this.websocket.send(message);
+            },
+
+            writeToScreen: function (message) {
+                console.log(message);
+                this.messages.push(message);
+            }
+        }
+    })
+
+</script>
+</html>

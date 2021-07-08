@@ -1,0 +1,90 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="Text/html; charset=UTF-8 " />
+    <meta http-equiv="content-language" content="pl" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <title> Start </title>
+
+    <style type="text/css">
+        body {
+            font-family: Helvetica, Arial, sans-serif;
+            color: #432616;
+        }
+    </style>
+</head>
+
+<body>
+    <div id='title_section'>
+        {{title}}
+        <div id='description'>
+            {{description}}
+        </div>
+
+    </div>
+
+    <div id='subtitle_section'>
+        {{title}}
+        <div id='description'>
+            {{description}}
+        </div>
+        <div>
+            <ol>
+                <li v-for='cat in cats'>{{cat.text}}</li>
+            </ol>
+        </div>
+
+    </div>
+
+    <div id="button">
+        {{message}}
+        <button v-on:click="button">Zrób coś śmiesznego</button>
+        <div v-if="show"> Ukryty tekst</div>
+    </div>
+
+    <script>
+        var title_section_app = new Vue({
+            el: '#title_section',
+            data: {
+                title: 'to jest Tytuł',
+                description: 'to jest opis',
+            }
+        })
+        var subtitle_section_app = new Vue({
+            el: '#subtitle_section',
+            data: {
+                title: 'to jest podTytuł',
+                description: 'to jest opis podtytułu',
+                cats: [
+                    {text: 'moj kot'},
+                    {text: 'niemoj kot'},
+                    {text: 'prawie moj kot'}
+                ]
+            }
+        })
+        var button_click_app = new Vue({
+            el: '#button',
+            data: {
+                message: "to jest przycisk",
+            },
+            methods: {
+                button: function () {
+                    alert('haha śmieszne');
+                    this.show = !this.show
+                }
+            }
+        })
+    </script>
+
+
+</body>
+
+
+</html>

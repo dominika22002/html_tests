@@ -1,0 +1,134 @@
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="pl" lang="pl">
+
+<head>
+    <meta http-equiv="content-type" content="Text/html; charset=UTF-8 " />
+    <meta http-equiv="content-language" content="pl" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <title> Demo page </title>
+
+    <style type="text/css">
+        #mapid {
+            height: 300px;
+        }
+    </style>
+</head>
+
+
+<body>
+    <div id="mapid"></div>
+    <div id='przycisk'>
+        <button class="button is-small" v-on:click="toggleDroneWatching">{{first_button}}</button>
+        <button class="button is-small" v-on:click="trasa_method">{{second_button}}</button>
+    </div>
+
+    <script>
+        var przycisk = new Vue({
+            el: '#przycisk',
+            data: {
+                api_url: 'http://vps694183.ovh.net:5000/drone/2', // skąd ma zczytywać dane do latającego drona
+                watch: false, // jeśli false to ma się nie ruszać
+                first_button: 'odświez',
+                second_button: 'stworz trase',
+                map_creation_active: false
+            },
+            created: function() {
+                this.mapid = L.map('mapid').setView([51.09851697089541, 17.027999720415856], 2); // pozycja startowa
+
+                this.myIcon = L.icon({ // jak wygląda ikonka
+                    iconUrl: 'Drone-07-512.jpg',
+                    iconSize: [30, 32],
+                    iconAnchor: [15, 16]
+
+                })
+
+
+                this.marker = L.marker([0, 0], {
+                    icon: this.myIcon
+                }).addTo(this.mapid); // nowy obiekt na mapie
+                L.tileLayer('https://api.maptiler.com/maps/topo/{z}/{x}/{y}.png?key=cWe1Eu1RgsKO4y6IexYa', {
+                    attribution: ' <a href="https://www.maptiler.com/copyright/" target="_blank">&copy; MapTiler</a> <a href="https://www.openstreetmap.org/copyright" target="_blank">&copy; OpenStreetMap contributors</a>',
+                    maxZoom: 18,
+                    id: 'mapbox/streets-v11',
+                    tileSize: 512,
+                    zoomOffset: -1,
+                    accessToken: 'your.mapbox.access.token'
+
+                }).addTo(this.mapid); // to jest ten napis na dole mapy
+
+                let self = this;
+
+                setInterval(function() { //jakby... rob getDrone() co 1000ms=1s 
+                    self.getDrone()
+                }, 100);
+
+                this.mapid.on("click", function(e) {
+                    self.onMapClick(e)
+                })
+            },
+
+            methods: {
+
+                toggleDroneWatching: function() { //ruszaj się lub nie ruszaj
+                    this.watch = !this.watch;
+                    if (!this.watch) {
+                        this.first_button = 'start';
+                    }
+                    if (this.watch) {
+                        this.first_button = 'stop';
+                    }
+
+                },
+
+                getDrone: function() {
+                    if (!this.watch) {
+                        return; // jeśli jest wyłączony to nieaktualizuj
+                    }
+                    let self = this;
+
+                    axios.get(this.api_url)
+                        .then(function(response) {
+                            console.log(response);
+                            const [wartosc1, wartosc2] = response.data.position;
+                            self.marker.setLatLng([wartosc1, wartosc2]); //zmienia pozycje naszego znacznika(obiektu) na określoną
+                        })
+                },
+                marker_bar: function() {
+                    return "iii";
+
+
+                },
+                onMapClick: function(e) {
+                    if (!this.map_creation_active) {
+                        return;
+                    }
+                    znacznik = this.marker;
+                    alert(e.latlng);
+                    znacznik = L.marker(e.latlng).addTo(this.mapid);
+                    znacznik.bindPopup(this.marker_bar).openPopup();
+
+
+                },
+                trasa_method: function() {
+                    console.log("uuuu");
+
+                    this.map_creation_active = !this.map_creation_active;
+                },
+
+
+            }
+
+        })
+    </script>
+</body>
+
+</html>

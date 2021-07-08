@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- http://vps694183.ovh.net:5000/drone/1 -->
+<!-- https://bulma.io/documentation/ -->
+<!-- https://vuejs.org/v2/guide/ -->
+<!-- https://dog.ceo/dog-api/ -->
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</head>
+
+<body>
+
+    <div class="kwadracik is-12"></div>
+
+    <!-- Sekcja tytułowa -->
+    <section class="section" id='title_section'>
+        <div class="container">
+            <h1 class="title">
+                {{message}}
+            </h1>
+            <p class="subtitle">
+                My first website with <strong>Bulma</strong>!
+
+                <button v-on:click="smthFunny">Zrób coś śmiesznego</button>
+
+            <div v-if="show"> Ukryty tekst</div>
+            </p>
+
+            <ol>
+                <li v-for="todo in todos">
+                    {{todo.text}}
+                </li>
+            </ol>
+        </div>
+    </section>
+
+    <section id='drone_position'>
+        <div class="container">
+            <h1 class="title">Drone position</h1>
+            <button v-on:click="refresh">Refresh</button>
+
+
+            <ol>
+                <li v-for="dog in dogs">
+                    {{dog}}
+                </li>
+            </ol>
+
+        </div>
+    </section>
+    <!-- 
+    <section>
+
+        <div class="columns">
+            <div class="column is-5">
+                First column
+            </div>
+            <div class="column is-7">
+                Second column
+            </div>
+
+        </div>
+    </section> -->
+
+
+    <script>
+
+
+        var drone_position = new Vue({
+            el: '#drone_position',
+            data: {
+                dogs: []
+            },
+
+            methods: {
+                refresh: function () {
+                    let self = this;
+
+                    axios.get('https://dog.ceo/api/breeds/list/all')
+                        .then(function (response) {
+                            // console.log(response)
+                            for (breed in response.data.message) {
+                                console.log(breed);
+                                self.dogs.push(breed);
+                            }
+
+                        })
+                }
+            }
+        })
+
+
+
+        var title_section_app = new Vue({
+            el: '#title_section',
+            data: {
+                message: 'Hello Vue!',
+                show: false,
+                todos: [
+                    { text: 'Learn JavaScript' },
+                    { text: 'Learn Vue' },
+                    { text: 'Build something awesome' }
+                ]
+            },
+            methods: {
+                smthFunny: function () {
+                    // alert('haha śmieszne');
+                    // this.message = 'Nowa wiadomość'
+                    this.show = !this.show
+
+                }
+            }
+        })
+
+    </script>
+</body>
+
+</html>
